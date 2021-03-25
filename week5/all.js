@@ -13,6 +13,12 @@
  */
 
 
+
+/**
+ * * 初始化資料
+ * * 宣告變數 data，並賦予值為物件型態的陣列 reference，以物件方式存放每個套票資料
+ * * 宣告變數 ticketCardArea，並賦予值為物件型態的 DOM 元素
+ */
 let data = [
     {
       "id": 0,
@@ -45,3 +51,63 @@ let data = [
       "rate": 7
     }
 ];
+
+// 針對給定的 Selector 條件，回傳第一個 HTMLElement 物件
+const ticketCardArea = document.querySelector("ul.ticketCard-area");
+const regionSearchMenu = document.querySelectorAll(".regionSearch");
+
+// * 預設載入函式
+function init(){
+
+  let ticketListContent = "";
+  data.forEach(function(item){
+
+    ticketListContent += `<li class="ticketCard">
+        <div class="ticketCard-img">
+          <a href="#">
+            <img src="${item.imgUrl}" alt="${item.name}">
+          </a>
+          <div class="ticketCard-region">${item.area}</div>
+          <div class="ticketCard-rank">${item.rate}</div>
+        </div>
+        <div class="ticketCard-content">
+          <div>
+            <h3>
+              <a href="#" class="ticketCard-name">${item.name}</a>
+            </h3>
+            <p class="ticketCard-description">
+            ${item.description}
+            </p>
+          </div>
+          <div class="ticketCard-info">
+            <p class="ticketCard-num">
+              <span><i class="fas fa-exclamation-circle"></i></span>
+              剩下最後 <span id="ticketCard-num"> ${item.group} </span> 組
+            </p>
+            <p class="ticketCard-price">
+              TWD <span id="ticketCard-price">$${item.price}</span>
+            </p>
+          </div>
+        </div>
+      </li>`;
+  });
+  ticketCardArea.innerHTML = ticketListContent;
+}
+
+// * 繪製DOM
+function paintDIM(){};
+
+// * 篩選邏輯
+regionSearchMenu.addEventListener('click', function(e){
+  console.log(e.target.value);
+  let ticketListContent = "";
+  if(e.target.value === "高雄"){
+    ticketListContent += 
+  }
+});
+
+
+
+// main code
+// * 網頁狀態初始化
+init();
