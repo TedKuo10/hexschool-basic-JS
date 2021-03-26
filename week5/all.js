@@ -17,7 +17,6 @@
 /**
  * * 初始化資料
  * * 宣告變數 data，並賦予值為物件型態的陣列 reference，以物件方式存放每個套票資料
- * * 宣告變數 ticketCardArea，並賦予值為物件型態的 DOM 元素
  */
 let data = [
     {
@@ -54,13 +53,33 @@ let data = [
 
 // 針對給定的 Selector 條件，回傳第一個 HTMLElement 物件
 const ticketCardArea = document.querySelector("ul.ticketCard-area");
-const regionSearchMenu = document.querySelectorAll(".regionSearch");
+const regionSearchMenu = document.querySelector(".regionSearch");
+const searchResultText = document.querySelector("#searchResult-text");
 
-// * 預設載入函式
+
+const cleanBtn = document.querySelector(".cleanBtn");
+const addBtn = document.querySelector(".addBtn");
+
+
+
+/**
+ * 預設載入函式
+ */
 function init(){
 
+  paintDOM(data);
+
+}
+
+/**
+ * 繪製 DOM 用函式
+ * * 接篩選後資料，來進行 DOM 繪製
+ * @param {*} filteredData
+ */
+function paintDOM(filteredData){
+
   let ticketListContent = "";
-  data.forEach(function(item){
+  filteredData.forEach(function(item){
 
     ticketListContent += `<li class="ticketCard">
         <div class="ticketCard-img">
@@ -92,22 +111,73 @@ function init(){
       </li>`;
   });
   ticketCardArea.innerHTML = ticketListContent;
+
+  searchResultText.innerHTML = `本次搜尋共 ${filteredData.length} 筆資料`;
+
+};
+
+
+function checkFormData(){
+  let ticketName = document.querySelector("#ticketName");
+  let ticketImgUrl = document.querySelector("#ticketImgUrl");
+  let ticketRegion = document.querySelector("#ticketRegion");
+  let ticketPrice = document.querySelector("#ticketPrice");
+  let ticketNum = document.querySelector("#ticketNum");
+  let ticketRate = document.querySelector("#ticketRate");
+  let ticketDescription = document.querySelector("#ticketDescription");
+
+  let formData = [ticketName, ticketImgUrl, ticketRegion, ticketPrice, ticketNum, ticketRate, ticketDescription];
+
+  if (formData.includes("")) {
+    return false;
+  } else {
+    return formData
+  }
+
+
 }
 
-// * 繪製DOM
-function paintDIM(){};
+
+
+
+// * program start
+// * 網頁狀態初始化
+init();
 
 // * 篩選邏輯
 regionSearchMenu.addEventListener('click', function(e){
   console.log(e.target.value);
   let ticketListContent = "";
-  if(e.target.value === "高雄"){
-    ticketListContent += 
+
+  /**
+   * if 全部地區 then 呈現全部
+   * else 其他地區 then 依地區篩選資料
+   * display end
+  */
+
+  if (e.target.value === "地區搜尋") {
+    return;
+  }else if (e.target.value === "全部") {
+    paintDOM(data);
+    return;
+  }else{
+
+    let areaData = [];
+    data.forEach(function(item){
+      if (item.area === e.target.value) {
+        areaData.push(item);
+      }
+    });
+    paintDOM(areaData);
+
   }
+
 });
 
+// * 新增資料邏輯
+addBtn.addEventListener('click', function(e){
 
+  // get data
+  
 
-// main code
-// * 網頁狀態初始化
-init();
+});

@@ -104,7 +104,10 @@
           </p>
         </div>
       </div>
-      <input type="button" class="addTicket-btn btn" value="新增套票">
+      <div class="form-group">
+        <input type="button" class="addTicket-btn btn cleanBtn" style="color:#0000008a; background-color: #80808042; margin-right: 15px;" value="清除資料">
+        <input type="button" class="addTicket-btn btn addBtn" value="新增套票">
+      </div>
     </form>
   </section>
   <section class="main-content">
@@ -117,7 +120,7 @@
         <option class="regionSearchArea" value="台中">台中</option>
         <option class="regionSearchArea" value="高雄">高雄</option>
       </select>
-      <p id="searchResult-text">本次搜尋共 3 筆資料</p>
+      <p id="searchResult-text"></p>
     </div>
     <!-- 套票卡片區 -->
     <ul class="ticketCard-area">
