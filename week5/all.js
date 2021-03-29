@@ -56,10 +56,8 @@ const ticketCardArea = document.querySelector("ul.ticketCard-area");
 const regionSearchMenu = document.querySelector(".regionSearch");
 const searchResultText = document.querySelector("#searchResult-text");
 
-
 const cleanBtn = document.querySelector(".cleanBtn");
 const addBtn = document.querySelector(".addBtn");
-
 
 
 /**
@@ -116,28 +114,62 @@ function paintDOM(filteredData){
 
 };
 
-
+/**
+ * 檢查資料是否都有輸入的函式
+ * @returns 陣列，包含物件型態的套表資料和布林值，資料是否齊全
+ */
 function checkFormData(){
-  let ticketName = document.querySelector("#ticketName");
-  let ticketImgUrl = document.querySelector("#ticketImgUrl");
-  let ticketRegion = document.querySelector("#ticketRegion");
-  let ticketPrice = document.querySelector("#ticketPrice");
-  let ticketNum = document.querySelector("#ticketNum");
-  let ticketRate = document.querySelector("#ticketRate");
-  let ticketDescription = document.querySelector("#ticketDescription");
+  let ticketObj ={
+    ticketName: document.querySelector("#ticketName").value,
+    ticketImgUrl: document.querySelector("#ticketImgUrl").value,
+    ticketRegion: document.querySelector("#ticketRegion").value,
+    ticketPrice: document.querySelector("#ticketPrice").value,
+    ticketNum: document.querySelector("#ticketNum").value,
+    ticketRate: document.querySelector("#ticketRate").value,
+    ticketDescription: document.querySelector("#ticketDescription").value
+  };
 
-  let formData = [ticketName, ticketImgUrl, ticketRegion, ticketPrice, ticketNum, ticketRate, ticketDescription];
-
-  if (formData.includes("")) {
-    return false;
+  if (Object.values(ticketObj).includes("")) {
+    return [ticketObj, false];
   } else {
-    return formData
+    return [ticketObj, true];
   }
 
 
 }
 
+function resetForm(){
 
+  let ticketProperty = ["ticketName", "ticketImgUrl", "ticketRegion", "ticketPrice", "ticketNum", "ticketRate", "ticketDescription"];
+  ticketProperty.forEach(function(item){
+    let domSelectorMessage = `#${item}-message`;
+    let domSelectorForm = `#${item}`;
+    document.querySelector(domSelectorForm).value = "";
+    document.querySelector(domSelectorMessage).innerHTML = ``;
+  });
+
+}
+
+function resetData(){
+  paintDOM(data);
+  regionSearchMenu.value = "地區搜尋";
+}
+
+function showMessage(obj){
+  let objData = Object.entries(obj);
+  objData.forEach(function(item){
+     // 判斷是否顯示必填資訊
+    //  console.log(isNaN(item[1]));
+     if(item[1]===""){
+       let domSelector = `#${item[0]}-message`;
+       console.log(document.querySelector(domSelector));
+       document.querySelector(domSelector).innerHTML = `<i class="fas fa-exclamation-circle"></i>
+       <span>必填!</span>`;
+     }
+  });
+
+
+}
 
 
 // * program start
@@ -177,7 +209,31 @@ regionSearchMenu.addEventListener('click', function(e){
 // * 新增資料邏輯
 addBtn.addEventListener('click', function(e){
 
-  // get data
-  
+  // 確認資料是否都有輸入
+  let newTicketInfor = checkFormData();
+  if(newTicketInfor[1]){
+    // 以物件型態新增資料至套票陣列
+    let newTicketObj = {
+      "id": data.length,
+      "name": newTicketInfor[0].ticketName,
+      "imgUrl": newTicketInfor[0].ticketImgUrl,
+      "area": newTicketInfor[0].ticketRegion,
+      "description": newTicketInfor[0].ticketDescription,
+      "group": parseInt(newTicketInfor[0].ticketNum),
+      "price": parseInt(newTicketInfor[0].ticketPrice),
+      "rate": parseInt(newTicketInfor[0].ticketRate)
+    };
+    data.push(newTicketObj);
+    resetForm();
+    resetData();
 
+  }else{
+    showMessage(newTicketInfor[0]);
+  }
+
+});
+
+// * 清除資料邏輯
+cleanBtn.addEventListener('click', function(e){
+  resetForm();
 });
