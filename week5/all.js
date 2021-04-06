@@ -119,7 +119,7 @@ function paintDOM(filteredData){
  * @returns 陣列，包含物件型態的套表資料和布林值，資料是否齊全
  */
 function checkFormData(){
-  let ticketObj ={
+  let ticketObj = {
     ticketName: document.querySelector("#ticketName").value,
     ticketImgUrl: document.querySelector("#ticketImgUrl").value,
     ticketRegion: document.querySelector("#ticketRegion").value,
